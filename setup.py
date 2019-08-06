@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 # NOTE: When updating botocore make sure to update awscli/boto3 versions below
 install_requires = [
     # pegged to also match items in `extras_require`
-    'botocore>=1.12.49,<1.12.50',
+    'botocore>=1.12.75,<1.13.00',
     'aiohttp>=3.3.1',
     'wrapt>=1.10.10',
 ]
@@ -55,7 +55,7 @@ classifiers = [
 ]
 
 
-setup(name='aiobotocore',
+setup(name='osaro-aiobotocore',
       version=read_version(),
       description='Async client for aws services using botocore and aiohttp',
       long_description='\n\n'.join((read('README.rst'), read('CHANGES.txt'))),

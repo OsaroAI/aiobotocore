@@ -51,6 +51,14 @@ class StreamingBody(wrapt.ObjectProxy):
         """
         return self.iter_chunks(self._DEFAULT_CHUNK_SIZE)
 
+    def __anext__(self):
+        """Return the next 1k chunk from the raw stream.
+        """
+        current_chunk = self.read(self._DEFAULT_CHUNK_SIZE)
+        if current_chunk:
+            return current_chunk
+        raise StopIteration()
+
     # TODO: when we move to python >=3.6 we can make this like the sync ver
     def iter_lines(self, chunk_size=1024):
         """Return an iterator to yield lines from the raw stream.

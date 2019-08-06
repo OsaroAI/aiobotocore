@@ -20,11 +20,12 @@ class AioClientCreator(botocore.client.ClientCreator):
     def __init__(self, loader, endpoint_resolver, user_agent, event_emitter,
                  retry_handler_factory, retry_config_translator,
                  response_parser_factory=None, exceptions_factory=None,
-                 loop=None):
+                 config_store=None, loop=None):
         super().__init__(loader, endpoint_resolver, user_agent, event_emitter,
                          retry_handler_factory, retry_config_translator,
                          response_parser_factory=response_parser_factory,
-                         exceptions_factory=exceptions_factory)
+                         exceptions_factory=exceptions_factory,
+                         config_store=config_store)
         loop = loop or asyncio.get_event_loop()
         self._loop = loop
 
@@ -88,8 +89,8 @@ class AioBaseClient(botocore.client.BaseClient):
         if event_response is not None:
             http, parsed_response = event_response
         else:
-            http, parsed_response = await self._endpoint.make_request(
-                operation_model, request_dict)
+            http, parsed_response = await self._make_request(
+                operation_model, request_dict, request_context)
 
         self.meta.events.emit(
             'after-call.{service_id}.{operation_name}'.format(

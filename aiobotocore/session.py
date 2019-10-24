@@ -32,11 +32,7 @@ class AioSession(botocore.session.Session):
 
         # Figure out the user-provided region based on the various
         # configuration options.
-        if region_name is None:
-            if config and config.region_name is not None:
-                region_name = config.region_name
-            else:
-                region_name = self.get_config_variable('region')
+        region_name = self._resolve_region_name(region_name, config)
 
         # Figure out the verify value base on the various
         # configuration options.

@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 # NOTE: When updating botocore make sure to update awscli/boto3 versions below
 install_requires = [
     # pegged to also match items in `extras_require`
-    'botocore>=1.12.189,<1.12.190',
+    'botocore>=1.13.2,<1.14.0',
     'aiohttp>=3.3.1',
     'wrapt>=1.10.10',
     'async_generator>=1.10',  # can remove if we move to py3.6+
@@ -25,16 +25,16 @@ def read(f):
 
 
 extras_require = {
-    'awscli': ['awscli==1.16.199'],
+    'awscli': ['awscli==1.16.266'],
     'aws-xray-sdk': ['aws-xray-sdk==2.4.2'],
-    'boto3': ['boto3==1.9.189'],
+    'boto3': ['boto3==1.10.2'],
 }
 
 
 def read_version():
     regexp = re.compile(r"^__version__\W*=\W*'([\d.abrc]+)'")
     init_py = os.path.join(os.path.dirname(__file__),
-                           'aiobotocore', '__init__.py')
+                           'osaro-aiobotocore', '__init__.py')
     with open(init_py) as f:
         for line in f:
             match = regexp.match(line)
@@ -58,7 +58,7 @@ classifiers = [
 ]
 
 
-setup(name='aiobotocore',
+setup(name='osaro-aiobotocore',
       version=read_version(),
       description='Async client for aws services using botocore and aiohttp',
       long_description='\n\n'.join((read('README.rst'), read('CHANGES.txt'))),

@@ -11,7 +11,6 @@ from botocore.endpoint import EndpointCreator, Endpoint, DEFAULT_TIMEOUT, \
 from botocore.exceptions import ConnectionClosedError
 from botocore.hooks import first_non_none_response
 from botocore.utils import is_valid_endpoint_url
-from botocore.vendored.requests.structures import CaseInsensitiveDict
 from botocore.history import get_global_history_recorder
 from multidict import MultiDict
 from urllib.parse import urlparse
@@ -58,9 +57,7 @@ async def convert_to_response_dict(http_response, operation_model):
         # the expected case. See detailed discussion here:
         # https://github.com/aio-libs/aiobotocore/pull/116
         # aiohttp's CIMultiDict camel cases the headers :(
-        'headers': CaseInsensitiveDict(
-            {k.decode('utf-8').lower(): v.decode('utf-8')
-             for k, v in http_response.raw_headers}),
+        'headers': http_response.headers,
         'status_code': http_response.status_code,
         'context': {
             'operation_name': operation_model.name,
